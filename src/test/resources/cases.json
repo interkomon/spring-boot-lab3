@@ -1,0 +1,374 @@
+[
+  {
+    "number": 1,
+    "name": "Корректный полный запрос",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 200,
+    "errorCode": "",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 2,
+    "name": "Только обязательные поля",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"communicationId\": 10\n}",
+    "status": 200,
+    "errorCode": "",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 3,
+    "name": "Граница: идентификаторы 32 символа, communicationId = 1",
+    "body": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 1,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 200,
+    "errorCode": "",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 4,
+    "name": "Граница: communicationId = 100000",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 100000,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 200,
+    "errorCode": "",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 5,
+    "name": "uid: отсутствует",
+    "body": "{\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "uid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 6,
+    "name": "uid: равен null",
+    "body": "{\n  \"uid\": null,\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "uid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 7,
+    "name": "uid: пустая строка",
+    "body": "{\n  \"uid\": \"\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "uid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 8,
+    "name": "uid: только пробелы",
+    "body": "{\n  \"uid\": \"   \",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "uid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 9,
+    "name": "uid: длина 33 символа",
+    "body": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "uid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 10,
+    "name": "operationUid: отсутствует",
+    "body": "{\n  \"uid\": \"1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "operationUid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 11,
+    "name": "operationUid: равен null",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": null,\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "operationUid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 12,
+    "name": "operationUid: пустая строка",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "operationUid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 13,
+    "name": "operationUid: только пробелы",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"   \",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "operationUid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 14,
+    "name": "operationUid: длина 33 символа",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "operationUid"
+    ],
+    "description": ""
+  },
+  {
+    "number": 15,
+    "name": "systemTime: отсутствует",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "systemTime"
+    ],
+    "description": ""
+  },
+  {
+    "number": 16,
+    "name": "systemTime: равен null",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": null,\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "systemTime"
+    ],
+    "description": ""
+  },
+  {
+    "number": 17,
+    "name": "systemTime: пустая строка",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "systemTime"
+    ],
+    "description": ""
+  },
+  {
+    "number": 18,
+    "name": "systemTime: только пробелы",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"   \",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "systemTime"
+    ],
+    "description": ""
+  },
+  {
+    "number": 19,
+    "name": "communicationId: равен 0",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "communicationId"
+    ],
+    "description": ""
+  },
+  {
+    "number": 20,
+    "name": "communicationId: равен 100001",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 100001,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "communicationId"
+    ],
+    "description": ""
+  },
+  {
+    "number": 21,
+    "name": "communicationId: отсутствует",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "communicationId"
+    ],
+    "description": ""
+  },
+  {
+    "number": 22,
+    "name": "communicationId: равен null",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": null,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "communicationId"
+    ],
+    "description": ""
+  },
+  {
+    "number": 23,
+    "name": "Все обязательные поля отсутствуют",
+    "body": "{}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "uid",
+      "operationUid",
+      "systemTime",
+      "communicationId"
+    ],
+    "description": ""
+  },
+  {
+    "number": 24,
+    "name": "Все ограничения нарушены вместе",
+    "body": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"\",\n  \"source\": \"Postman\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "uid",
+      "operationUid",
+      "systemTime",
+      "communicationId"
+    ],
+    "description": ""
+  },
+  {
+    "number": 25,
+    "name": "Собственное исключение: uid = 123",
+    "body": "{\n  \"uid\": \"123\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "UnsupportedCodeException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 26,
+    "name": "Приоритет: uid = 123 и communicationId = 0",
+    "body": "{\n  \"uid\": \"123\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [
+      "communicationId"
+    ],
+    "description": ""
+  },
+  {
+    "number": 27,
+    "name": "Некорректный JSON",
+    "body": "{\"uid\": \"1\",",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 28,
+    "name": "Неверный тип communicationId",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": \"abc\",\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 29,
+    "name": "Пустое тело запроса",
+    "body": "",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 30,
+    "name": "Система CRM",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"CRM\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 200,
+    "errorCode": "",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 31,
+    "name": "Система WMS",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"WMS\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 200,
+    "errorCode": "",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 32,
+    "name": "Неизвестная система",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"OTHER\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 33,
+    "name": "Неверный регистр системы",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"erp\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 34,
+    "name": "Число вместо системы",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": 1,\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 35,
+    "name": "Пустая система",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 400,
+    "errorCode": "ValidationException",
+    "fields": [],
+    "description": ""
+  },
+  {
+    "number": 36,
+    "name": "Необязательная система null",
+    "body": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": null,\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+    "status": 200,
+    "errorCode": "",
+    "fields": [],
+    "description": ""
+  }
+]

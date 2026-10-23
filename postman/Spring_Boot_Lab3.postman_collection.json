@@ -1,0 +1,2047 @@
+{
+  "info": {
+    "name": "ЛР3 Spring Boot — изменение ответа и логирование",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Проверки ЛР3",
+      "item": [
+        {
+          "name": "01. Корректный полный запрос",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"success\");",
+                  "    pm.expect(result.errorCode).to.eql(\"\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"\");",
+                  "  });",
+                  "  pm.test(\"Время сформировано сервером\", function () {",
+                  "    var request = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(result.uid).to.eql(request.uid);",
+                  "    pm.expect(result.operationUid).to.eql(request.operationUid);",
+                  "    pm.expect(result.systemTime === request.systemTime).to.eql(false);",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "30. Система CRM",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"CRM\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"success\");",
+                  "    pm.expect(result.errorCode).to.eql(\"\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"\");",
+                  "  });",
+                  "  pm.test(\"Время сформировано сервером\", function () {",
+                  "    var request = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(result.uid).to.eql(request.uid);",
+                  "    pm.expect(result.operationUid).to.eql(request.operationUid);",
+                  "    pm.expect(result.systemTime === request.systemTime).to.eql(false);",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "31. Система WMS",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"WMS\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"success\");",
+                  "    pm.expect(result.errorCode).to.eql(\"\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"\");",
+                  "  });",
+                  "  pm.test(\"Время сформировано сервером\", function () {",
+                  "    var request = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(result.uid).to.eql(request.uid);",
+                  "    pm.expect(result.operationUid).to.eql(request.operationUid);",
+                  "    pm.expect(result.systemTime === request.systemTime).to.eql(false);",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "32. Неизвестная система",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"OTHER\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "24. Все ограничения нарушены вместе",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"\",\n  \"source\": \"Postman\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "25. Собственное исключение: uid = 123",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"123\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"UnsupportedCodeException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Неподдерживаемый код uid\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 Регрессия и дополнительные проверки",
+      "item": [
+        {
+          "name": "02. Только обязательные поля",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"communicationId\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"success\");",
+                  "    pm.expect(result.errorCode).to.eql(\"\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"\");",
+                  "  });",
+                  "  pm.test(\"Время сформировано сервером\", function () {",
+                  "    var request = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(result.uid).to.eql(request.uid);",
+                  "    pm.expect(result.operationUid).to.eql(request.operationUid);",
+                  "    pm.expect(result.systemTime === request.systemTime).to.eql(false);",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03. Граница: идентификаторы 32 символа, communicationId = 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 1,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"success\");",
+                  "    pm.expect(result.errorCode).to.eql(\"\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"\");",
+                  "  });",
+                  "  pm.test(\"Время сформировано сервером\", function () {",
+                  "    var request = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(result.uid).to.eql(request.uid);",
+                  "    pm.expect(result.operationUid).to.eql(request.operationUid);",
+                  "    pm.expect(result.systemTime === request.systemTime).to.eql(false);",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04. Граница: communicationId = 100000",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 100000,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"success\");",
+                  "    pm.expect(result.errorCode).to.eql(\"\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"\");",
+                  "  });",
+                  "  pm.test(\"Время сформировано сервером\", function () {",
+                  "    var request = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(result.uid).to.eql(request.uid);",
+                  "    pm.expect(result.operationUid).to.eql(request.operationUid);",
+                  "    pm.expect(result.systemTime === request.systemTime).to.eql(false);",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05. uid: отсутствует",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06. uid: равен null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": null,\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07. uid: пустая строка",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08. uid: только пробелы",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"   \",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09. uid: длина 33 символа",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "10. operationUid: отсутствует",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "11. operationUid: равен null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": null,\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "12. operationUid: пустая строка",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "13. operationUid: только пробелы",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"   \",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "14. operationUid: длина 33 символа",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "15. systemTime: отсутствует",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "16. systemTime: равен null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": null,\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "17. systemTime: пустая строка",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "18. systemTime: только пробелы",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"   \",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19. communicationId: равен 0",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "20. communicationId: равен 100001",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 100001,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "21. communicationId: отсутствует",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "22. communicationId: равен null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": null,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "23. Все обязательные поля отсутствуют",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "26. Приоритет: uid = 123 и communicationId = 0",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"123\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 0,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "27. Некорректный JSON",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"uid\": \"1\",",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "28. Неверный тип communicationId",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"ERP\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": \"abc\",\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "29. Пустое тело запроса",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "33. Неверный регистр системы",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"erp\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "34. Число вместо системы",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": 1,\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "35. Пустая система",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": \"\",\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"failed\");",
+                  "    pm.expect(result.errorCode).to.eql(\"ValidationException\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"Ошибка валидации\");",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "36. Необязательная система null",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/feedback",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "feedback"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uid\": \"1\",\n  \"operationUid\": \"op-001\",\n  \"systemName\": null,\n  \"systemTime\": \"1999-01-01T00:00:00Z\",\n  \"source\": \"Postman\",\n  \"communicationId\": 10,\n  \"templateId\": 1,\n  \"productCode\": 2,\n  \"smsCode\": 1234\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "(function () {",
+                  "  pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });",
+                  "  var result = pm.response.json();",
+                  "  pm.test(\"Структура ответа\", function () {",
+                  "    [\"uid\",\"operationUid\",\"systemTime\",\"code\",\"errorCode\",\"errorMessage\"].forEach(function (key) {",
+                  "      pm.expect(result).to.have.property(key); pm.expect(result[key]).to.be.a(\"string\");",
+                  "    });",
+                  "    pm.expect(isNaN(Date.parse(result.systemTime))).to.eql(false);",
+                  "  });",
+                  "  pm.test(\"Перечисления сериализованы в строки\", function () {",
+                  "    pm.expect(result.code).to.eql(\"success\");",
+                  "    pm.expect(result.errorCode).to.eql(\"\");",
+                  "    pm.expect(result.errorMessage).to.eql(\"\");",
+                  "  });",
+                  "  pm.test(\"Время сформировано сервером\", function () {",
+                  "    var request = JSON.parse(pm.request.body.raw);",
+                  "    pm.expect(result.uid).to.eql(request.uid);",
+                  "    pm.expect(result.operationUid).to.eql(request.operationUid);",
+                  "    pm.expect(result.systemTime === request.systemTime).to.eql(false);",
+                  "  });",
+                  "})();"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
